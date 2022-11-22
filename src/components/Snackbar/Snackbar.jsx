@@ -1,29 +1,23 @@
-import React from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
+import React from 'react'
+import CustomSnackbar from '@material-ui/core/Snackbar'
+import MuiAlert from '@material-ui/lab/Alert'
 
-import useStyles from './styles';
+// import useStyles from './styles'
 
-const CustomizedSnackbar = ({ open, setOpen }) => {
-  const classes = useStyles();
+const Snackbar = ({ open, setOpen, action }) => {
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') return
 
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
+        setOpen(!open)
     }
 
-    setOpen(false);
-  };
+    return (
+        <CustomSnackbar anchorOrigin={{ vertical: 'top', horizontal: 'right' }} open={open} autoHideDuration={5000} onClose={handleClose}>
+            <MuiAlert severity={ action === 'add' ? 'success' : 'error'} elevation={6} variant='filled' onClose={handleClose}>
+                { action === 'add' ? 'Transaction created successfully.' : 'Transaction modified successfully.'}
+            </MuiAlert>
+        </CustomSnackbar>
+    )
+}
 
-  return (
-    <div className={classes.root}>
-      <Snackbar 
-      anchorOrigin={{ vertical: 'top', horizontal: 'right' }} 
-      open={open} autoHideDuration={6000} onClose={handleClose}>
-        <MuiAlert onClose={handleClose} severity="success" elevation={6} variant="filled">Transaction successfully created.</MuiAlert>
-      </Snackbar>
-    </div>
-  );
-};
-
-export default CustomizedSnackbar;
+export default Snackbar

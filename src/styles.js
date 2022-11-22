@@ -1,27 +1,25 @@
-import { makeStyles } from '@material-ui/core/styles';
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Ceviche+One&family=Dancing+Script&family=Raleway&display=swap');
-</style>
+import { makeStyles } from '@material-ui/core/styles'
+
 export default makeStyles((theme) => ({
-  desktop: {
+  mobile: {
     [theme.breakpoints.up('sm')]: {
       display: 'none',
     },
   },
-  mobile: {
-    [theme.breakpoints.down('sm')]: {
+  desktop: {
+    [theme.breakpoints.down('xs')]: {
       display: 'none',
     },
   },
   main: {
-    [theme.breakpoints.up('sm')]: {
-      paddingBottom: '5%',
+    [theme.breakpoints.down('sm')]: {
+      paddingBottom: '0%',
     },
   },
   last: {
-    [theme.breakpoints.down('sm')]: {
-      marginBottom: theme.spacing(4),
-      paddingBottom: '200px',
+    [theme.breakpoints.down('xs')]: {
+    //   marginBottom: theme.spacing(2),
+      paddingBottom: '150px',
     },
   },
   grid: {
@@ -29,4 +27,4 @@ export default makeStyles((theme) => ({
       margin: theme.spacing(2),
     },
   },
-}));
+}))

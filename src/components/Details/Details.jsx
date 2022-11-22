@@ -1,28 +1,41 @@
-import React from 'react'
-import {Card , CardHeader , CardContent , Typography } from '@material-ui/core';
- import { Doughnut } from 'react-chartjs-2';
+import React, { useContext } from 'react'
+import { Card, CardHeader, CardContent, Divider, Typography } from '@material-ui/core'
+import { Doughnut } from 'react-chartjs-2'
+import useStyles from './styles.js'
+import useTransactions from '../../useTransactions.js'
+import {Chart, ArcElement, Title, Legend,Tooltip} from 'chart.js'
 
-import  useStyles from './styles';
-import useTransactions from '../../useTransactions';
-
-const Details = ({title, subheader}) => {
-    // We use useStyle hook for importing material-ui class
-     const {total, chartData} =useTransactions(title);
-    const classes =useStyles();
-  
-
+const Details = ({ title }) => {
+    const classes = useStyles()
+    Chart.register(ArcElement);
+    Chart.register(Legend);
+    Chart.register(Tooltip);
+    const {total, chartData} =useTransactions(title);
+   
     return (
-        // In th below statement for our income use income css class else expense
         <Card className={title === 'Income' ? classes.income : classes.expense}>
-            <CardHeader title={title} subheader ={subheader}/>
-                <CardContent>
-                   <Typography varinat="h5">Rs.{total}</Typography>
-                   {/* We will be adding data later */}
-                   {/* console.log(chartData) */}
-                   <Doughnut data={chartData} /> 
-                </CardContent>
+            <CardHeader title={title}/>
+            <Divider variant="middle"/>
+            <CardContent>
+                <Typography variant='h5'>€{total}</Typography>
+            <Doughnut data={chartData} options={{
+  plugins: {
+    tooltip: true,
+   
+    legend: {
+      display: true,
+      position: "top",
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+  },
+}} />
+            </CardContent>
         </Card>
-    );
+    )
 }
 
-export default Details;
+export default Details

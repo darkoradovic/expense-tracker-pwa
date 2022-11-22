@@ -1,32 +1,27 @@
-import { useContext } from 'react';
-import { ExpenseTrackerContext } from './context/context';
-
-import { incomeCategories, expenseCategories, resetCategories } from './constants/categories';
+import { useContext } from 'react'
+import { ExpenseTrackerContext } from './context/context'
+import { incomeCategories, expenseCategories } from './constants/categories'
 
 const useTransactions = (title) => {
-  resetCategories();
-  const { transactions } = useContext(ExpenseTrackerContext);
-  const rightTransactions = transactions.filter((t) => t.type === title);
-  const total = rightTransactions.reduce((acc, currVal) => acc += currVal.amount, 0);
-  const categories = title === 'Income' ? incomeCategories : expenseCategories;
+    const { transactions } = useContext(ExpenseTrackerContext)
+    const filteredTransactions = transactions.filter((transaction) => transaction.type === title)
+    const total = filteredTransactions.reduce((total, currentValue) => total += currentValue.amount, 0)
+    const categories = title === 'Income' ? incomeCategories : expenseCategories
+    filteredTransactions.forEach((transaction) => {
+        const category = categories.find((category) => category.name === transaction.category)
+        if (category) category.amount += transaction.amount
+    })
 
-  rightTransactions.forEach((t) => {
-    const category = categories.find((c) => c.type === t.category);
+    const filteredCategories = categories.filter((category) => category.amount > 0)
+    const chartData = {
+        datasets: [{
+          data: filteredCategories.map((category) => category.amount),
+          backgroundColor: filteredCategories.map((category) => category.color ),
+        }],
+        labels: filteredCategories.map((category) => category.name),
+        
+    }
+    return { total, chartData }
+}
 
-    if (category) category.amount += t.amount;
-  });
-
-  const filteredCategories = categories.filter((sc) => sc.amount > 0);
-
-  const chartData = {
-    datasets: [{
-      data: filteredCategories.map((c) => c.amount),
-      backgroundColor: filteredCategories.map((c) => c.color),
-    }],
-    labels: filteredCategories.map((c) => c.type),
-  };
-
-  return { filteredCategories, total, chartData };
-};
-
-export default useTransactions;
+export default useTransactions

@@ -1,9 +1,13 @@
-#root, body , html {
-    height: 100%;;
+#root, body, html {
+    height: 100%;
     margin: 0;
 }
 
-body{
-    
+body {
+    background: linear-gradient(115deg, #0f0c2918 0%, #302b631f 50%, #24243e16 100%), url(./assets/bg-creme.png);
     background-size: cover;
+}
+
+.MuiPaper-elevation1{
+    box-shadow: none;
 }

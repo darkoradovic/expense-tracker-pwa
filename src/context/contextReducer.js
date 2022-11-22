@@ -1,22 +1,18 @@
-//logic after doing that action like how chaning old state to new
+const contextReducer = ( state, action ) => {
+    let transactions
 
-const contextReducer = (state, action) => {
-    let transactions;
-
-    switch(action.type){
-        
+    switch (action.type) {
         case 'DELETE_TRANSACTION':
-            transactions = state.filter((t) => t.id !== action.payload);
-            localStorage.setItem('transactions', JSON.stringify(transactions));
-            return transactions;
-
+            transactions = state.filter((transaction) => transaction.id !== action.payload)
+            localStorage.setItem('transactions', JSON.stringify(transactions))
+            return transactions
         case 'ADD_TRANSACTION':
-            transactions = [action.payload, ...state]; 
-            localStorage.setItem('transactions', JSON.stringify(transactions));
-            return transactions;
+            transactions = [action.payload, ...state]
+            localStorage.setItem('transactions', JSON.stringify(transactions))
+            return transactions
         default:
-            return state;
+            return state
     }
 }
 
-export default contextReducer;
+export default contextReducer
